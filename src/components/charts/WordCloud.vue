@@ -233,10 +233,12 @@ onMounted(async () => {
   width: 100%;
   height: 100%;
   pointer-events: auto;
+
   canvas {
     display: none;
   }
 }
+
 :deep(.wordsphere-label) {
   cursor: pointer;
   max-width: 280px;

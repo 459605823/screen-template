@@ -125,18 +125,17 @@ defineExpose({
   transition: 0.2s;
   z-index: 999;
 }
+
 .fixed-aspect-ratio.fixed-aspect-ratio-disabled {
   position: absolute !important;
   left: 0 !important;
   top: 0 !important;
 }
+
 .fixed-aspect-ratio.fixed-aspect-ratio-full {
   position: fixed !important;
   left: 0 !important;
   top: 0 !important;
-  z-index: 99999 !important;
-  z-index: 999999 !important;
-  z-index: 9999999 !important;
   z-index: 99999999 !important;
 }
 </style>

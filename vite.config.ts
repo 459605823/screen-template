@@ -7,7 +7,8 @@ import Components from 'unplugin-vue-components/vite';
 import {AntDesignVueResolver} from 'unplugin-vue-components/resolvers';
 import {createSvgIconsPlugin} from 'vite-plugin-svg-icons';
 import Unocss from 'unocss/vite';
-import Pages from 'vite-plugin-pages';
+import VueRouter from 'unplugin-vue-router/vite';
+import {VueRouterAutoImports} from 'unplugin-vue-router';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -22,12 +23,12 @@ export default defineConfig({
     },
   },
   plugins: [
-    vue(),
-    Pages({
-      dirs: 'src/views',
+    VueRouter({
+      dts: 'src/typed-router.d.ts',
     }),
+    vue(),
     AutoImport({
-      imports: ['vue', 'vue-router'],
+      imports: ['vue', VueRouterAutoImports],
       dts: 'src/auto-imports.d.ts',
       eslintrc: {
         enabled: true,

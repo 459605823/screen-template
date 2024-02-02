@@ -22,7 +22,7 @@ const isDev = import.meta.env.DEV;
 
 const fetch_ = createFetch({
   // 单独配置某个请求的配置时进行覆盖
-  baseUrl: isDev ? '/api' : '/api2',
+  baseUrl: '/api',
   options: {
     immediate: true,
     refetch: false,
@@ -37,7 +37,6 @@ const fetch_ = createFetch({
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'text/plain',
-      'x-api-key': 'aee91fef4ebd6e8215c57372e93e0103',
     },
   },
 });

@@ -219,14 +219,17 @@ onUnmounted(() => {
   width: 100%;
   height: 100%;
 }
+
 :deep(.bubble-node) {
   cursor: pointer;
   @for $i from 1 through 30 {
     &:nth-child(#{$i}) .bubble-graph {
       $delay: $i * 0.075s;
+
       animation-delay: $delay;
     }
   }
+
   .bubble-graph {
     opacity: 0;
     animation-name: animateIn;
@@ -240,6 +243,7 @@ onUnmounted(() => {
     opacity: 0;
     transform: scale(0.6);
   }
+
   100% {
     opacity: 1;
     transform: scale(1);

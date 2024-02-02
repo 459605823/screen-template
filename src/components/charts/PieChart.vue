@@ -240,7 +240,7 @@ const {chartBox} = EchartsControl(() => getOptions(props.data, 0.7), 'canvas');
 .chart-box {
   width: 100%;
   height: 100%;
-  background-image: url(@/assets/images/service-center/饼图底座.png);
+  background-image: url('@/assets/images/service-center/饼图底座.png');
   background-size: 252px 120px;
   background-repeat: no-repeat;
   background-position: center 50%;

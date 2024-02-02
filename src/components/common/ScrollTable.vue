@@ -120,14 +120,14 @@ const getValue = (data: Record<string, any>, dataIndex: string | string[]) => {
   overscroll-behavior: none;
   padding-top: 30px;
   position: relative;
+
   &-nodata {
     color: #fff;
     width: 100%;
     height: 100%;
     display: flex;
-    align-content: center;
+    place-content: center center;
     align-items: center;
-    justify-content: center;
   }
 
   &-header {
@@ -145,7 +145,7 @@ const getValue = (data: Record<string, any>, dataIndex: string | string[]) => {
     align-items: center;
     height: 30px;
     padding-left: 8px;
-    background: rgba(153, 194, 255, 0.1);
+    background: rgb(153 194 255 / 10%);
     mix-blend-mode: normal;
   }
 
@@ -159,9 +159,10 @@ const getValue = (data: Record<string, any>, dataIndex: string | string[]) => {
     color: #fff;
     letter-spacing: 0;
     padding-left: 8px;
+
     &:nth-child(even) {
       height: 30px;
-      background: rgba(153, 194, 255, 0.1);
+      background: rgb(153 194 255 / 10%);
       mix-blend-mode: normal;
     }
 

@@ -7,7 +7,6 @@
     to($to)
   );
   background-clip: text;
-  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -15,19 +14,16 @@
   position: relative;
   border-radius: $radius;
   overflow: hidden;
+
   &::after {
     content: '';
     position: absolute;
-    top: 0px;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
+    inset: 0;
     padding: 1px;
     border-radius: $radius;
     background: linear-gradient(180deg, $from 0%, $to 100%);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: xor;
     mask-composite: exclude;
   }
 }
@@ -36,6 +32,7 @@
   &::-webkit-scrollbar {
     width: $width;
   }
+
   &::-webkit-scrollbar-thumb {
     border-radius: $width;
     background: $color;
