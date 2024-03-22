@@ -40,7 +40,7 @@ export default defineConfig({
       types: [],
       directoryAsNamespace: true,
       collapseSamePrefixes: true,
-      globalNamespaces: ['charts', 'common'],
+      globalNamespaces: ['charts'],
       dts: 'src/components.d.ts',
       resolvers: [
         AntDesignVueResolver({
