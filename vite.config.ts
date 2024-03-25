@@ -54,6 +54,13 @@ export default defineConfig({
     }),
     Unocss(),
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import '@/styles/utils.scss';`,
+      },
+    },
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),

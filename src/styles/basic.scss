@@ -1,3 +1,5 @@
+@import './utils';
+
 *,
 *::before,
 *::after {
@@ -32,4 +34,10 @@ svg {
 @font-face {
   font-family: DINAlternate-Bold;
   src: url('/fonts/DIN-Alternate-Bold.ttf');
+}
+
+.text-gradient {
+  --from: #fff;
+  --to: #000;
+  @include textGradient(var(--from), var(--to));
 }
