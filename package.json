@@ -6,20 +6,14 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "prepare": "husky install && cp -a .husky .git/hooks",
+    "prepare": "husky install && husky set .husky/pre-commit 'npx lint-staged' && git add .husky/pre-commit",
     "preinstall": "npx only-allow pnpm",
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
-    "lint:es": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "lint:style": "stylelint src\"/**/*.+(vue|css|scss|less|stylus|sass|postcss)\" --fix --ignore-path .gitignore",
-    "format": "prettier --write src/"
-  },
-  "lint-staged": {
-    "*.{css,less,scss,sass,postcss}": [
-      "prettier --write"
-    ],
-    "*.{ts,js,jsx,tsx,vue}": [
-      "eslint --fix --ignore-path .gitignore"
-    ]
+    "lint:script": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
+    "lint:style": "stylelint src\"/**/*.+(vue|css|scss|less|stylus|sass|postcss)\"",
+    "format:script": "prettier --write src/",
+    "format:style": "stylelint src\"/**/*.+(vue|css|scss|less|stylus|sass|postcss)\" --fix",
+    "format": "npm run format:script && npm run format:style"
   },
   "dependencies": {
     "@unocss/reset": "^0.51.13",
