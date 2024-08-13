@@ -36,6 +36,11 @@ svg {
   src: url('/fonts/DIN-Alternate-Bold.ttf');
 }
 
+@font-face {
+  font-family: YSBT;
+  src: url('/fonts/YouSheBiaoTiHei.ttf');
+}
+
 .text-gradient {
   --from: #fff;
   --to: #000;

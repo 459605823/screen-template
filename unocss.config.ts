@@ -10,6 +10,7 @@ export default defineConfig({
   presets: [presetUno(), presetAttributify()],
   rules: [
     ['font-din', {'font-family': 'DINAlternate-Bold'}],
+    ['font-ysbt', {'font-family': 'YSBT'}],
     ['bg-fill', {'background-size': '100% 100%'}],
   ],
   shortcuts: {
