@@ -1,52 +1,54 @@
-import {ref, onMounted, onUnmounted, onUpdated} from 'vue';
+import {ref, onMounted, onUnmounted} from 'vue';
 import * as echarts from 'echarts';
 import {debounce} from 'lodash-es';
 
+const addCommonConfig = (getOptions: () => echarts.EChartsOption) => {
+  const option = getOptions();
+  // 添加通用配置
+  return option;
+};
+
 export default function (
-  getOptions: () => echarts.EChartsCoreOption,
-  renderer: 'canvas' | 'svg' = 'svg',
-  manualUpdate = false
+  getOptions: () => echarts.EChartsOption,
+  renderer: 'canvas' | 'svg' = 'svg'
 ) {
   const chartBox = ref(document.createElement('canvas'));
-  let chartInstance: echarts.EChartsType;
+  const chartInstance: Ref<echarts.EChartsType | undefined> =
+    shallowRef(undefined);
 
   const resize = debounce(() => {
-    draw(getOptions());
-    chartInstance?.resize();
-  }, 500);
+    chartInstance.value?.resize();
+  }, 100);
   const resizeObserver = new ResizeObserver(resize);
 
-  const draw = (options: echarts.EChartsCoreOption) => {
-    chartInstance?.setOption(options);
-  };
+  const draw = debounce(() => {
+    chartInstance.value?.resize();
+    const option = addCommonConfig(getOptions);
+    chartInstance.value?.setOption(option, {
+      notMerge: true,
+    });
+  }, 100);
 
   onMounted(() => {
-    chartInstance = echarts.init(chartBox.value, {}, {renderer});
+    chartInstance.value = echarts.init(chartBox.value, {}, {renderer});
     if (!document.addEventListener) return;
     resizeObserver.observe(chartBox.value);
-    // window.addEventListener(resizeEvt, resize, false);
-
-    draw(getOptions());
+    draw();
   });
 
   onUnmounted(() => {
-    if (!document.removeEventListener) return;
     resizeObserver.disconnect();
-    // window.removeEventListener(resizeEvt, resize, false);
-    chartInstance?.dispose();
+    chartInstance.value?.dispose();
+    chartInstance.value = undefined;
   });
 
-  onUpdated(() => {
-    if (manualUpdate) return;
-    chartInstance?.clear();
-    chartInstance?.resize();
-    setTimeout(() => {
-      draw(getOptions());
-    }, 100);
+  watchEffect(() => {
+    draw();
   });
 
   return {
     chartBox,
+    chart: chartInstance,
     draw,
   };
 }
