@@ -1,5 +1,5 @@
 # svg图标
 
 ```html
-<svg-icon icon-name="iconName"></svg-icon>
+<svg-icon icon-name="[dir]-[name]"></svg-icon>
 ```
