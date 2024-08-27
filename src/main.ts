@@ -1,4 +1,5 @@
 import {createApp} from 'vue';
+import dayjs from 'dayjs';
 import App from './App.vue';
 import router from './router';
 // css
@@ -10,8 +11,8 @@ import 'flag-icons/css/flag-icons.min.css';
 // svg-icons
 import 'virtual:svg-icons-register';
 // dayjs汉化
-import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
+
 dayjs.locale('zh-cn');
 
 const app = createApp(App);

@@ -1,5 +1,6 @@
-import {fileURLToPath, URL} from 'node:url';
+import {URL, fileURLToPath} from 'node:url';
 import {resolve} from 'node:path';
+import {cwd} from 'node:process';
 import {defineConfig} from 'vite';
 import vue from '@vitejs/plugin-vue';
 import AutoImport from 'unplugin-auto-import/vite';
@@ -18,7 +19,7 @@ export default defineConfig({
         target: 'https://10.216.195.205/Z9U1ZOMQ0008/__rest',
         changeOrigin: true,
         secure: false,
-        rewrite: (path) => path.replace(/^\/api/, ''),
+        rewrite: path => path.replace(/^\/api/, ''),
       },
     },
   },
@@ -49,7 +50,7 @@ export default defineConfig({
       ],
     }),
     createSvgIconsPlugin({
-      iconDirs: [resolve(process.cwd(), 'src/assets/svgs')],
+      iconDirs: [resolve(cwd(), 'src/assets/svgs')],
       symbolId: 'icon-[dir]-[name]',
     }),
     Unocss(),

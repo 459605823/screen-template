@@ -1,5 +1,21 @@
+<template>
+  <div
+    class="scroll-container"
+    @mouseenter="handleMouseEnter"
+    @mouseleave="handleMouseLeave"
+    @wheel="handleWheel"
+  >
+    <div ref="scrollRef" class="scroll-area">
+      <slot />
+      <template v-if="needScroll">
+        <slot />
+      </template>
+    </div>
+  </div>
+</template>
+
 <script setup lang="ts">
-import {ref, type Ref} from 'vue';
+import {type Ref, ref} from 'vue';
 import {useScroll} from '@/composables/infinityScroll';
 
 const props = withDefaults(
@@ -16,7 +32,7 @@ const props = withDefaults(
     speed: 1,
     hover: true,
     wheel: false,
-  }
+  },
 );
 const scrollRef: Ref<HTMLElement | undefined> = ref();
 
@@ -26,27 +42,28 @@ const needScroll = computed(() => {
   return props.data.length > props.limitScrollNum;
 });
 
-const handleMouseEnter = () => {
+function handleMouseEnter() {
   if (props.hover) {
     pauseScroll();
   }
-};
+}
 
-const handleMouseLeave = () => {
+function handleMouseLeave() {
   if (props.hover) {
     resumeScroll();
   }
-};
+}
 
 // todo: wheel
-const handleWheel = (e: WheelEvent) => {
-  if (!props.wheel && !props.hover) return;
+function handleWheel(e: WheelEvent) {
+  if (!props.wheel && !props.hover)
+    return;
   if (e.deltaY > 0) {
     // 向上滚动
   } else {
     // 向下滚动
   }
-};
+}
 
 onMounted(() => {
   watch(
@@ -59,7 +76,7 @@ onMounted(() => {
     {
       immediate: true,
       flush: 'post',
-    }
+    },
   );
 });
 
@@ -67,21 +84,7 @@ onUnmounted(() => {
   dispose();
 });
 </script>
-<template>
-  <div
-    class="scroll-container"
-    @mouseenter="handleMouseEnter"
-    @mouseleave="handleMouseLeave"
-    @wheel="handleWheel"
-  >
-    <div ref="scrollRef" class="scroll-area">
-      <slot></slot>
-      <template v-if="needScroll">
-        <slot></slot>
-      </template>
-    </div>
-  </div>
-</template>
+
 <style scoped>
 .scroll-container {
   height: 100%;

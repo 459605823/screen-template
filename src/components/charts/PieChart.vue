@@ -5,14 +5,14 @@
       class="legend absolute bottom-0 left-50% w-full flex translate-x--50% transform justify-center gap-x-56px"
     >
       <div
-        class="legend-item flex"
         v-for="(item, index) in data"
         :key="item.name"
+        class="legend-item flex"
       >
         <div
           class="marker mr-8px mt-2px h-8px w-8px"
           :style="{backgroundColor: colors[index]}"
-        ></div>
+        />
         <div>
           <div class="mb-4px text-12px text-#fff text-op-80">
             {{ item.name }}
@@ -31,8 +31,8 @@
 
 <script setup lang="ts">
 import 'echarts-gl';
-import EchartsControl from '@/composables/EchartsControl';
 import {scaleLinear} from 'd3';
+import EchartsControl from '@/composables/EchartsControl';
 
 type Data = {
   name: string;
@@ -52,14 +52,14 @@ function getParametricEquation(
   isSelected: boolean,
   isHovered: boolean,
   k: number,
-  height: number
+  height: number,
 ) {
   // 计算
-  let midRatio = (startRatio + endRatio) / 2;
+  const midRatio = (startRatio + endRatio) / 2;
 
-  let startRadian = startRatio * Math.PI * 2;
-  let endRadian = endRatio * Math.PI * 2;
-  let midRadian = midRatio * Math.PI * 2;
+  const startRadian = startRatio * Math.PI * 2;
+  const endRadian = endRatio * Math.PI * 2;
+  const midRadian = midRatio * Math.PI * 2;
 
   // 如果只有一个扇形，则不实现选中效果。
   if (startRatio === 0 && endRatio === 1) {
@@ -70,11 +70,11 @@ function getParametricEquation(
   k = typeof k !== 'undefined' ? k : 1 / 3;
 
   // 计算选中效果分别在 x 轴、y 轴方向上的位移（未选中，则位移均为 0）
-  let offsetX = isSelected ? Math.cos(midRadian) * 0.1 : 0;
-  let offsetY = isSelected ? Math.sin(midRadian) * 0.1 : 0;
+  const offsetX = isSelected ? Math.cos(midRadian) * 0.1 : 0;
+  const offsetY = isSelected ? Math.sin(midRadian) * 0.1 : 0;
 
   // 计算高亮效果的放大比例（未高亮，则比例为 1）
-  let hoverRate = isHovered ? 1.05 : 1;
+  const hoverRate = isHovered ? 1.05 : 1;
 
   // 返回曲面参数方程
   return {
@@ -90,7 +90,7 @@ function getParametricEquation(
       step: Math.PI / 20,
     },
 
-    x: function (u: number, v: number) {
+    x(u: number, v: number) {
       if (u < startRadian) {
         return (
           offsetX + Math.cos(startRadian) * (1 + Math.cos(v) * k) * hoverRate
@@ -104,7 +104,7 @@ function getParametricEquation(
       return offsetX + Math.cos(u) * (1 + Math.cos(v) * k) * hoverRate;
     },
 
-    y: function (u: number, v: number) {
+    y(u: number, v: number) {
       if (u < startRadian) {
         return (
           offsetY + Math.sin(startRadian) * (1 + Math.cos(v) * k) * hoverRate
@@ -118,7 +118,7 @@ function getParametricEquation(
       return offsetY + Math.sin(u) * (1 + Math.cos(v) * k) * hoverRate;
     },
 
-    z: function (u: number, v: number) {
+    z(u: number, v: number) {
       if (u < -Math.PI * 0.5 || u > Math.PI * 2.5) {
         return Math.sin(u) > 0 ? 1 * height : -1;
       }
@@ -130,18 +130,18 @@ function getParametricEquation(
 const colors = props.colors ? props.colors : ['#2577CB', '#CFB45C', '#55CDCF'];
 
 function getOptions(pieData: Data, internalDiameterRatio?: number) {
-  const values = pieData.map((item) => item.value);
+  const values = pieData.map(item => item.value);
   const max = Math.max(...values);
   const min = Math.min(...values);
   const heightScale = scaleLinear().domain([min, max]).range([0.5, 4]);
 
-  let series = [];
+  const series = [];
   let sumValue = 0;
   let startValue = 0;
   let endValue = 0;
-  let legendData = [];
-  let k =
-    typeof internalDiameterRatio !== 'undefined'
+  const legendData = [];
+  const k
+    = typeof internalDiameterRatio !== 'undefined'
       ? (1 - internalDiameterRatio) / (1 + internalDiameterRatio)
       : 1 / 3;
 
@@ -152,7 +152,7 @@ function getOptions(pieData: Data, internalDiameterRatio?: number) {
     }
     sumValue += pieData[i].value;
 
-    let seriesItem: Record<string, any> = {
+    const seriesItem: Record<string, any> = {
       name:
         typeof pieData[i].name === 'undefined' ? `series${i}` : pieData[i].name,
       type: 'surface',
@@ -164,7 +164,7 @@ function getOptions(pieData: Data, internalDiameterRatio?: number) {
       pieStatus: {
         selected: false,
         hovered: false,
-        k: k,
+        k,
       },
       itemStyle: {
         opacity: pieData[1].itemStyle?.opacity || 0.8,
@@ -186,7 +186,7 @@ function getOptions(pieData: Data, internalDiameterRatio?: number) {
       false,
       false,
       k,
-      heightScale(series[i].pieData.value)
+      heightScale(series[i].pieData.value),
     );
 
     startValue = endValue;
@@ -195,7 +195,7 @@ function getOptions(pieData: Data, internalDiameterRatio?: number) {
   }
 
   // 准备待返回的配置项，把准备好的 legendData、series 传入。
-  let option = {
+  const option = {
     color: colors,
     xAxis3D: {
       min: -1,
@@ -228,7 +228,7 @@ function getOptions(pieData: Data, internalDiameterRatio?: number) {
         center: [0, -20, 0],
       },
     },
-    series: series,
+    series,
   };
   return option;
 }

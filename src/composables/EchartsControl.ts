@@ -1,20 +1,20 @@
-import {ref, onMounted, onUnmounted} from 'vue';
+import {onMounted, onUnmounted, ref} from 'vue';
 import * as echarts from 'echarts';
 import {debounce} from 'lodash-es';
 
-const addCommonConfig = (getOptions: () => echarts.EChartsOption) => {
+function addCommonConfig(getOptions: () => echarts.EChartsOption) {
   const option = getOptions();
   // 添加通用配置
   return option;
-};
+}
 
 export default function (
   getOptions: () => echarts.EChartsOption,
-  renderer: 'canvas' | 'svg' = 'svg'
+  renderer: 'canvas' | 'svg' = 'svg',
 ) {
   const chartBox = ref(document.createElement('canvas'));
-  const chartInstance: Ref<echarts.EChartsType | undefined> =
-    shallowRef(undefined);
+  const chartInstance: Ref<echarts.EChartsType | undefined>
+    = shallowRef(undefined);
 
   const resize = debounce(() => {
     chartInstance.value?.resize();
@@ -31,7 +31,8 @@ export default function (
 
   onMounted(() => {
     chartInstance.value = echarts.init(chartBox.value, {}, {renderer});
-    if (!document.addEventListener) return;
+    if (!document.addEventListener)
+      return;
     resizeObserver.observe(chartBox.value);
     draw();
   });

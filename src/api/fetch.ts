@@ -1,14 +1,14 @@
 import {createFetch} from '@vueuse/core';
-import type {BeforeFetchContext, AfterFetchContext} from '@vueuse/core';
+import type {AfterFetchContext, BeforeFetchContext} from '@vueuse/core';
 
-const beforeFetch = ({options}: BeforeFetchContext) => {
+function beforeFetch({options}: BeforeFetchContext) {
   const seachParams = new URLSearchParams(window.location.search);
   const token = seachParams.get('token');
   (options.headers as Record<string, any>).Authorization = `Bearer ${token}`;
   return {options};
-};
+}
 
-const afterFetch = (ctx: AfterFetchContext) => {
+function afterFetch(ctx: AfterFetchContext) {
   const {data, response} = ctx;
   if (response.ok) {
     if (data.statusCode !== 0) {
@@ -16,9 +16,7 @@ const afterFetch = (ctx: AfterFetchContext) => {
     }
   }
   return ctx;
-};
-
-const isDev = import.meta.env.DEV;
+}
 
 const fetch_ = createFetch({
   // 单独配置某个请求的配置时进行覆盖
@@ -57,15 +55,14 @@ type HandleMethods = 'json' | 'text' | 'blob' | 'formData' | 'arrayBuffer';
 
 type Api = Record<Methods, ReturnType<typeof getRequestFn>>;
 
-const getRequestFn =
-  (method: Methods) =>
-  async (
+function getRequestFn(method: Methods) {
+  return async (
     url: string,
     options: {
       searchParams?: Record<string, any>;
       body?: FormData | URLSearchParams | Record<string, any> | string;
       handleMethod?: HandleMethods;
-    } = {}
+    } = {},
   ) => {
     const {searchParams, handleMethod = 'json'} = options;
     let {body} = options;
@@ -81,7 +78,7 @@ const getRequestFn =
       }
       const search = params.toString();
       if (search) {
-        url += '?' + search;
+        url += `?${search}`;
       }
     }
     if (body instanceof FormData) {
@@ -106,9 +103,11 @@ const getRequestFn =
       ...fetchOptions,
     });
     const {data, error} = await fn[handleMethod]();
-    if (error.value) return {err: error.value};
+    if (error.value)
+      return {err: error.value};
     return {res: data.value};
   };
+}
 
 const api = Object.create(null) as Api;
 

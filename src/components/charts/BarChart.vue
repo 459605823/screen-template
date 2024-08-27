@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import * as echarts from 'echarts';
+import type * as echarts from 'echarts';
 import EchartsControl from '@/composables/EchartsControl';
 import {formatNumber} from '@/utils/format';
 
@@ -16,7 +16,7 @@ const props = defineProps<{
 
 const xColors = ['#9E95FF', '#FFDB66', '#66FCFF'];
 
-const getOptions = (): echarts.EChartsOption => {
+function getOptions(): echarts.EChartsOption {
   return {
     color: ['#66FCFF', '#FFDB66', '#66FFB4'],
     tooltip: {
@@ -29,23 +29,20 @@ const getOptions = (): echarts.EChartsOption => {
       formatter: (params: any) => {
         const html = (params as any[]).map((param) => {
           return `
-          <div class="flex items-center text-12px mb-8px last:mb-0" style="color: ${
-            param.color
-          }">
-            <span class="inline-block w-6px h-6px rounded-50% mr-8px" style="background: ${
-              param.color
-            }"></span> ${
-            param.seriesName
-          }: <span class="font-orbitron inline-block ml-8px mt-4px">${formatNumber(
-            param.value
-          )}</span>
-          </div>
+            <div class="flex items-center text-12px mb-8px last:mb-0" style="color: ${param.color}">
+              <span class="inline-block w-6px h-6px rounded-50% mr-8px" style="background: ${param.color}"></span>
+              ${param.seriesName}:
+              <span class="font-orbitron inline-block ml-8px mt-4px">${formatNumber(param.value)}</span>
+            </div>
           `;
         });
         return (
-          `<div class="text-white mb-4px text-14px" style="color: ${
-            xColors[params[0].dataIndex]
-          }">${params[0].axisValueLabel}</div>` + html.join('')
+          `
+          <div class="text-white mb-4px text-14px" style="color: ${xColors[params[0].dataIndex]}">
+            ${params[0].axisValueLabel}
+          </div>
+          ${html.join('')}
+          `
         );
       },
       textStyle: {
@@ -160,7 +157,7 @@ const getOptions = (): echarts.EChartsOption => {
         },
       },
     ],
-    series: props.data.map((item) => ({
+    series: props.data.map(item => ({
       name: item.name,
       type: 'bar',
       barWidth: 10,
@@ -171,7 +168,7 @@ const getOptions = (): echarts.EChartsOption => {
       data: item.data,
     })),
   };
-};
+}
 
 const {chartBox} = EchartsControl(() => getOptions());
 </script>

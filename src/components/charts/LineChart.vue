@@ -22,7 +22,7 @@ const props = withDefaults(
     data: LineChartProps;
     xData: string[];
     legendShow: boolean; // 是否是显示图例
-    isName: boolean; //悬停时是否是显示横坐标name
+    isName: boolean; // 悬停时是否是显示横坐标name
     colorMap?: {
       [key: string]: {color: string; gradient: echarts.graphic.LinearGradient};
     };
@@ -31,13 +31,8 @@ const props = withDefaults(
   {
     legendShow: true,
     isName: false,
-  }
+  },
 );
-// const props = defineProps<{
-//   data: LineChartProps;
-//   xData: string[];
-//   legendShow: boolean;
-// }>();
 
 const colorMap = props.colorMap
   ? props.colorMap
@@ -91,8 +86,8 @@ const pointIcons = props.pointIcons
       purple: pointPurple,
     };
 
-const getSeries = (): echarts.SeriesOption[] =>
-  props.data.map((item) => {
+function getSeries(): echarts.SeriesOption[] {
+  return props.data.map((item) => {
     const {name, data, colorType} = item;
     const {color, gradient} = colorMap[colorType];
     return {
@@ -111,15 +106,16 @@ const getSeries = (): echarts.SeriesOption[] =>
       },
     };
   });
+}
 
 // 将7.14转换成7-14
-const formatXData = (time: string) => {
+function formatXData(time: string) {
   const arr = time.split('.');
   return arr.join('-');
-};
+}
 
-const getLegendData = () =>
-  props.data.map((item) => {
+function getLegendData() {
+  return props.data.map((item) => {
     return {
       name: item.name,
       textStyle: {
@@ -127,10 +123,11 @@ const getLegendData = () =>
       },
     };
   });
+}
 
-const getOptions = (): echarts.EChartsOption => {
+function getOptions(): echarts.EChartsOption {
   return {
-    color: props.data.map((item) => colorMap[item.colorType].color),
+    color: props.data.map(item => colorMap[item.colorType].color),
     grid: {
       top: 30,
       left: 10,
@@ -155,37 +152,23 @@ const getOptions = (): echarts.EChartsOption => {
         if (!props.isName) {
           html = (params as any[]).map((param) => {
             return `
-          <div class="flex items-center text-12px mb-8px last:mb-0" style="color: ${
-            param.color
-          }">
-            <span class="inline-block w-6px h-6px rounded-50% mr-8px" style="background: ${
-              param.color
-            }"></span> ${
-              props.isName ? param.name : param.seriesName
-            }: <span class="font-orbitron inline-block ml-8px mt-4px">${formatNumber(
-              param.value
-            )}</span>
-          </div>
-          `;
+            <div class="flex items-center text-12px mb-8px last:mb-0" style="color: ${param.color}">
+              <span class="inline-block w-6px h-6px rounded-50% mr-8px" style="background: ${param.color}"></span>
+              ${props.isName ? param.name : param.seriesName}:
+              <span class="font-orbitron inline-block ml-8px mt-4px">${formatNumber(param.value)}</span>
+            </div>`;
           });
         } else {
           html = (params as any[]).map((param) => {
             return `
-          <div class=" items-center text-12px mb-8px last:mb-0" style="color: ${
-            param.color
-          }">
-            <div class="text-#fff lh-20px text-14px">${formatXData(
-              param.name
-            )}</div>
-            <div class="lh-17px">
-              ${
-                param.seriesName
-              }<span class="font-orbitron inline-block ml-8px text-14px">${formatNumber(
-              param.value
-            )}</span>
+            <div class=" items-center text-12px mb-8px last:mb-0" style="color: ${param.color}">
+              <div class="text-#fff lh-20px text-14px">${formatXData(param.name)}</div>
+              <div class="lh-17px">
+                ${param.seriesName}
+                <span class="font-orbitron inline-block ml-8px text-14px">${formatNumber(param.value)}</span>
+              </div>
             </div>
-          </div>
-          `;
+            `;
           });
         }
         return html.join('');
@@ -265,7 +248,7 @@ const getOptions = (): echarts.EChartsOption => {
     },
     series: getSeries(),
   };
-};
+}
 
 const {chartBox} = EchartsControl(() => getOptions());
 </script>

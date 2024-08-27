@@ -1,9 +1,9 @@
 <template>
-  <div ref="chartBox" class="chart-box"></div>
+  <div ref="chartBox" class="chart-box" />
 </template>
 
 <script setup lang="ts">
-import * as echarts from 'echarts';
+import type * as echarts from 'echarts';
 import 'echarts-wordcloud';
 import {randFloat} from '@/utils/random';
 import EchartsControl from '@/composables/EchartsControl';
@@ -14,15 +14,15 @@ const props = defineProps<{
 
 const colors = ['88,193,255', '255,219,102', '102,255,180'];
 
-const getOptions = (): echarts.EChartsOption => {
+function getOptions(): echarts.EChartsOption {
   return {
     series: [
       {
         type: 'wordCloud',
-        shape: (theta) =>
+        shape: theta =>
           Math.min(
             1 / Math.abs(Math.cos(theta)),
-            1 / Math.abs(Math.sin(theta))
+            1 / Math.abs(Math.sin(theta)),
           ),
         left: 'center',
         top: 'center',
@@ -51,7 +51,7 @@ const getOptions = (): echarts.EChartsOption => {
       },
     ],
   };
-};
+}
 
 const {chartBox} = EchartsControl(() => getOptions());
 </script>

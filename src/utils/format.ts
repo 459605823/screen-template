@@ -1,20 +1,17 @@
 import {isNumber} from 'lodash-es';
 
-export const formatNumber = (
-  value: number,
-  notation: 'standard' | 'compact' = 'compact',
-  toFixed = 2
-) => {
-  if (!isNumber(value)) return '-';
+export function formatNumber(value: number, notation: 'standard' | 'compact' = 'compact', toFixed = 2) {
+  if (!isNumber(value))
+    return '-';
   return new Intl.NumberFormat('zh-Hans-CN', {
     notation,
     useGrouping: true,
     maximumFractionDigits: toFixed,
   }).format(value);
-};
+}
 
-export const formatAreaName = (name: string) =>
-  name
+export function formatAreaName(name: string) {
+  return name
     .replace('省', '')
     .replace('自治区', '')
     .replace('特别行政区', '')
@@ -61,3 +58,4 @@ export const formatAreaName = (name: string) =>
     .replace('红河哈尼族彝族自治州', '红河州')
     .replace('怒江傈僳族自治州', '怒江州')
     .replace('西双版纳傣族自治州', '西双版纳');
+}

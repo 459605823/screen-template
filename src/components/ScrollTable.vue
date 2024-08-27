@@ -1,5 +1,5 @@
 <template>
-  <div class="scroll-table" :style="{height: height, ...tableStyle}">
+  <div class="scroll-table" :style="{height, ...tableStyle}">
     <div class="scroll-table-header" :style="headerStyle">
       <div
         v-for="column in columns"
@@ -8,7 +8,7 @@
         :style="{
           width:
             typeof column.width === 'number'
-              ? column.width + 'px'
+              ? `${column.width}px`
               : column.width,
           textAlign: column.titleAlign || 'left',
         }"
@@ -40,7 +40,7 @@
           class="scroll-table-line-item"
           :title="getValue(line, col.dataIndex)"
           :style="{
-            width: typeof col.width === 'number' ? col.width + 'px' : col.width,
+            width: typeof col.width === 'number' ? `${col.width}px` : col.width,
             textAlign: col?.align || 'left',
           }"
         >
@@ -58,6 +58,7 @@
     </InfinityScroll>
   </div>
 </template>
+
 <script lang="ts" setup>
 import type {CSSProperties} from 'vue';
 
@@ -79,7 +80,7 @@ export type ColumnsType = {
   titleAlign?: TextAlignProperty;
 }[];
 
-export type TablePropsType = {
+export interface TablePropsType {
   data: Record<string, any>[];
   columns: ColumnsType;
   limitScrollNum?: number;
@@ -89,7 +90,7 @@ export type TablePropsType = {
   headerStyle?: CSSProperties;
   evenRowStyle?: CSSProperties;
   oddRowStyle?: CSSProperties;
-};
+}
 
 withDefaults(defineProps<TablePropsType>(), {
   data: () => [],
@@ -105,13 +106,14 @@ withDefaults(defineProps<TablePropsType>(), {
 
 const emit = defineEmits(['click']);
 
-const getValue = (data: Record<string, any>, dataIndex: string | string[]) => {
+function getValue(data: Record<string, any>, dataIndex: string | string[]) {
   if (Array.isArray(dataIndex)) {
     return dataIndex.reduce((prev, cur) => prev[cur], data);
   }
   return data[dataIndex];
-};
+}
 </script>
+
 <style lang="scss" scoped>
 /* stylelint-disable font-family-no-missing-generic-family-keyword */
 

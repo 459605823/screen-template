@@ -1,21 +1,21 @@
 <template>
-  <div class="flex items-baseline" :style="{color: color}">
+  <div class="flex items-baseline" :style="{color}">
     <div
       class="font-700 tabular-nums"
       :style="{
-        fontSize: valueSize + 'px',
+        fontSize: `${valueSize}px`,
         fontFamily: font,
         width: widthStyle!,
-        fontWeight: fontWeight,
+        fontWeight,
       }"
     >
       {{ viewValue }}
     </div>
     <div
-      class="ml-8px"
       v-if="viewUnit"
+      class="ml-8px"
       :style="{
-        fontSize: unitSize + 'px',
+        fontSize: `${unitSize}px`,
         color: unitColor,
       }"
     >
@@ -49,12 +49,12 @@ const props = withDefaults(
     fixedWidth: false,
     fontWeight: 400,
     unitColor: '#fff',
-  }
+  },
 );
 
 const widthStyle = computed(() => {
   if (props.fixedWidth) {
-    return String(props.value).length * 18 + 'px';
+    return `${String(props.value).length * 18}px`;
   }
   return 'auto';
 });
@@ -63,7 +63,7 @@ let oldValue = 0;
 let valueCache = 0;
 const currentValue = ref(0);
 
-const update = () => {
+function update() {
   const newValue = props.value;
   if (valueCache !== newValue) {
     const startTime = Date.now();
@@ -76,19 +76,19 @@ const update = () => {
         oldValue = newValue;
       } else {
         currentValue.value = Math.round(
-          oldValue + ((newValue - oldValue) * t) / 1500
+          oldValue + ((newValue - oldValue) * t) / 1500,
         );
       }
     }, 50);
   }
-};
+}
 onUpdated(update);
 update();
 
 // 匹配字符串中汉字前的所有内容
-const regValue = /.*(?=[\u4e00-\u9fa5])/;
+const regValue = /.*(?=[\u4E00-\u9FA5])/;
 // 匹配字符串中的所有汉字
-const regUnit = /([\u4e00-\u9fa5]+)/g;
+const regUnit = /([\u4E00-\u9FA5]+)/g;
 
 const viewValue = computed(() => {
   const str = formatNumber(currentValue.value, props.notation, 1);

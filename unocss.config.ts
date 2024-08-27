@@ -14,7 +14,7 @@ export default defineConfig({
     ['bg-fill', {'background-size': '100% 100%'}],
   ],
   shortcuts: {
-    center: 'flex items-center justify-center',
+    'center': 'flex items-center justify-center',
     'font-number': 'font-din font-bold',
   },
   transformers: [transformerVariantGroup(), transformerDirectives()],
