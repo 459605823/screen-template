@@ -6,8 +6,8 @@ import router from './router';
 import '@unocss/reset/normalize.css';
 import 'uno.css';
 import '@/styles/basic.scss';
-// flag-icons
-import 'flag-icons/css/flag-icons.min.css';
+// flag-icons: <span class="fi fi-xx"></span>
+// import 'flag-icons/css/flag-icons.min.css';
 // svg-icons
 import 'virtual:svg-icons-register';
 // dayjs汉化

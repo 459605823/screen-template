@@ -11,6 +11,5 @@
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "types": ["vite-plugin-svg-icons/client", "unplugin-vue-router/client"]
   }
 }

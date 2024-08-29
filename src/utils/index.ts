@@ -1,3 +1,3 @@
-export {default as EVENT_BUS} from './eventBus';
+export {default as EventEmitter} from './eventEmitter';
 export * from './format';
 export * from './px';
