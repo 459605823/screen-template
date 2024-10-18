@@ -10,6 +10,7 @@ import {createSvgIconsPlugin} from 'vite-plugin-svg-icons';
 import Unocss from 'unocss/vite';
 import VueRouter from 'unplugin-vue-router/vite';
 import {VueRouterAutoImports} from 'unplugin-vue-router';
+import legacy from '@vitejs/plugin-legacy';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -24,6 +25,9 @@ export default defineConfig({
     },
   },
   plugins: [
+    legacy({
+      targets: ['defaults', 'not IE 11'],
+    }),
     VueRouter({
       dts: 'src/typed-router.d.ts',
     }),
