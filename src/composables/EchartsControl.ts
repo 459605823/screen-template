@@ -1,6 +1,6 @@
-import {onMounted, onUnmounted, ref} from 'vue';
 import * as echarts from 'echarts';
 import {debounce, merge} from 'lodash-es';
+import {onMounted, onUnmounted, ref} from 'vue';
 
 const commonConfig: echarts.EChartsOption = {
   tooltip: {

@@ -1,11 +1,10 @@
-import {createApp} from 'vue';
 import dayjs from 'dayjs';
+import {createApp} from 'vue';
 import App from './App.vue';
 import router from './router';
 // css
 import '@unocss/reset/normalize.css';
 import 'uno.css';
-import '@/styles/basic.scss';
 // flag-icons: <span class="fi fi-xx"></span>
 // import 'flag-icons/css/flag-icons.min.css';
 // svg-icons

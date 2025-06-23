@@ -1,8 +1,5 @@
 // @ts-check
 import antfu from '@antfu/eslint-config';
-import {FlatCompat} from '@eslint/eslintrc';
-
-const compat = new FlatCompat();
 
 export default antfu(
   {
@@ -19,11 +16,6 @@ export default antfu(
     jsonc: false,
     yaml: false,
   },
-  ...compat.config({
-    extends: [
-      './.eslintrc-auto-import.json',
-    ],
-  }),
   {
     files: ['**/*.vue'],
     rules: {

@@ -62,14 +62,14 @@
 <script lang="ts" setup>
 import type {CSSProperties} from 'vue';
 
-export type TextAlignProperty =
-  | 'start'
-  | 'end'
-  | 'left'
-  | 'right'
-  | 'center'
-  | 'justify'
-  | 'match-parent';
+export type TextAlignProperty
+  = | 'start'
+    | 'end'
+    | 'left'
+    | 'right'
+    | 'center'
+    | 'justify'
+    | 'match-parent';
 
 export type ColumnsType = {
   label: string;

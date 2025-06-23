@@ -1,5 +1,5 @@
-import {createFetch} from '@vueuse/core';
 import type {AfterFetchContext, BeforeFetchContext} from '@vueuse/core';
+import {createFetch} from '@vueuse/core';
 
 function beforeFetch({options}: BeforeFetchContext) {
   const seachParams = new URLSearchParams(window.location.search);

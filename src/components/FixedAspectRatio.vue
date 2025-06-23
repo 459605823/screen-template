@@ -20,9 +20,9 @@
 </template>
 
 <script lang="ts" setup>
+import {throttle} from 'lodash-es';
 // 随窗口缩放保持宽高比、顶部对齐、左右居中
 import {onMounted, onUnmounted, ref, watch} from 'vue';
-import {throttle} from 'lodash-es';
 
 const props = withDefaults(defineProps<Props>(), {
   width: 1920,

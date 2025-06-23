@@ -1,16 +1,16 @@
-import {URL, fileURLToPath} from 'node:url';
 import {resolve} from 'node:path';
 import {cwd} from 'node:process';
-import {defineConfig} from 'vite';
-import vue from '@vitejs/plugin-vue';
-import AutoImport from 'unplugin-auto-import/vite';
-import Components from 'unplugin-vue-components/vite';
-import {AntDesignVueResolver} from 'unplugin-vue-components/resolvers';
-import {createSvgIconsPlugin} from 'vite-plugin-svg-icons';
-import Unocss from 'unocss/vite';
-import VueRouter from 'unplugin-vue-router/vite';
-import {VueRouterAutoImports} from 'unplugin-vue-router';
+import {fileURLToPath, URL} from 'node:url';
 import legacy from '@vitejs/plugin-legacy';
+import vue from '@vitejs/plugin-vue';
+import Unocss from 'unocss/vite';
+import AutoImport from 'unplugin-auto-import/vite';
+import {AntDesignVueResolver} from 'unplugin-vue-components/resolvers';
+import Components from 'unplugin-vue-components/vite';
+import {VueRouterAutoImports} from 'unplugin-vue-router';
+import VueRouter from 'unplugin-vue-router/vite';
+import {defineConfig} from 'vite';
+import {createSvgIconsPlugin} from 'vite-plugin-svg-icons';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -35,11 +35,6 @@ export default defineConfig({
     AutoImport({
       imports: ['vue', VueRouterAutoImports],
       dts: 'src/auto-imports.d.ts',
-      eslintrc: {
-        enabled: true,
-        filepath: './.eslintrc-auto-import.json',
-        globalsPropValue: true,
-      },
     }),
     Components({
       types: [],
@@ -62,7 +57,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@import '@/styles/utils.scss';`,
+        additionalData: `@use '@/styles/utils.scss' as *;`,
       },
     },
   },

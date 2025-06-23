@@ -15,7 +15,8 @@
 </template>
 
 <script setup lang="ts">
-import {type Ref, ref} from 'vue';
+import type {Ref} from 'vue';
+import {ref} from 'vue';
 import {useScroll} from '@/composables/infinityScroll';
 
 const props = withDefaults(
