@@ -1,13 +1,13 @@
 import {
   defineConfig,
   presetAttributify,
-  presetUno,
+  presetWind4,
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss';
 
 export default defineConfig({
-  presets: [presetUno(), presetAttributify()],
+  presets: [presetWind4(), presetAttributify()],
   rules: [
     ['font-din', {'font-family': 'DINAlternate-Bold'}],
     ['font-ysbt', {'font-family': 'YSBT'}],
