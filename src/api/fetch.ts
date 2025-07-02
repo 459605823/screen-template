@@ -2,9 +2,6 @@ import type {AfterFetchContext, BeforeFetchContext} from '@vueuse/core';
 import {createFetch} from '@vueuse/core';
 
 function beforeFetch({options}: BeforeFetchContext) {
-  const seachParams = new URLSearchParams(window.location.search);
-  const token = seachParams.get('token');
-  (options.headers as Record<string, any>).Authorization = `Bearer ${token}`;
   return {options};
 }
 
