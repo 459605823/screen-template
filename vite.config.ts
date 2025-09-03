@@ -5,7 +5,7 @@ import legacy from '@vitejs/plugin-legacy';
 import vue from '@vitejs/plugin-vue';
 import Unocss from 'unocss/vite';
 import AutoImport from 'unplugin-auto-import/vite';
-import {AntDesignVueResolver} from 'unplugin-vue-components/resolvers';
+import {ElementPlusResolver} from 'unplugin-vue-components/resolvers';
 import Components from 'unplugin-vue-components/vite';
 import {VueRouterAutoImports} from 'unplugin-vue-router';
 import VueRouter from 'unplugin-vue-router/vite';
@@ -34,6 +34,7 @@ export default defineConfig({
     vue(),
     AutoImport({
       imports: ['vue', VueRouterAutoImports],
+      resolvers: [ElementPlusResolver()],
       dts: 'src/auto-imports.d.ts',
     }),
     Components({
@@ -43,9 +44,7 @@ export default defineConfig({
       globalNamespaces: ['charts'],
       dts: 'src/components.d.ts',
       resolvers: [
-        AntDesignVueResolver({
-          importStyle: false,
-        }),
+        ElementPlusResolver(),
       ],
     }),
     createSvgIconsPlugin({
