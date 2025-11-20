@@ -16,23 +16,13 @@ function afterFetch(ctx: AfterFetchContext) {
 }
 
 const fetch_ = createFetch({
-  // 单独配置某个请求的配置时进行覆盖
-  baseUrl: '/api',
+  baseUrl: import.meta.env.VITE_API_BASE_URL,
   options: {
     immediate: true,
     refetch: false,
     timeout: 10 * 60 * 10000,
     beforeFetch,
     afterFetch,
-  },
-  fetchOptions: {
-    mode: 'cors',
-    credentials: 'same-origin',
-    cache: 'no-store',
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Content-Type': 'text/plain',
-    },
   },
 });
 
@@ -53,11 +43,11 @@ type HandleMethods = 'json' | 'text' | 'blob' | 'formData' | 'arrayBuffer';
 type Api = Record<Methods, ReturnType<typeof getRequestFn>>;
 
 function getRequestFn(method: Methods) {
-  return async (
+  return async <T = any>(
     url: string,
     options: {
       searchParams?: Record<string, any>;
-      body?: FormData | URLSearchParams | Record<string, any> | string;
+      body?: FormData | URLSearchParams | Record<string, any> | string | Blob;
       handleMethod?: HandleMethods;
     } = {},
   ) => {
@@ -78,31 +68,33 @@ function getRequestFn(method: Methods) {
         url += `?${search}`;
       }
     }
-    if (body instanceof FormData) {
-      fetchOptions.headers = {
-        'Content-Type': 'multipart/form-data',
-      };
-    } else if (body instanceof URLSearchParams) {
-      fetchOptions.headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      };
-    } else if (typeof body === 'object') {
-      fetchOptions.headers = {
-        'Content-Type': 'application/json',
-      };
-      body = JSON.stringify(body);
-    }
     if (body) {
+      if (body instanceof URLSearchParams) {
+        fetchOptions.headers = {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        };
+      } else if (body instanceof Blob) { // File 也是 Blob
+        // 让浏览器自动决定 Content-Type; 若没有类型则指定 application/octet-stream
+        if (!body.type) {
+          fetchOptions.headers = {
+            'Content-Type': 'application/octet-stream',
+          };
+        }
+      } else if (typeof body === 'object') {
+        fetchOptions.headers = {
+          'Content-Type': 'application/json',
+        };
+        body = JSON.stringify(body);
+      }
       fetchOptions.body = body;
     }
-    const fn = fetch_(url, {
+    const {data, error} = await fetch_(url, {
       method,
       ...fetchOptions,
-    });
-    const {data, error} = await fn[handleMethod]();
+    })[handleMethod]();
     if (error.value)
       return {err: error.value};
-    return {res: data.value};
+    return {res: data.value as T};
   };
 }
 
