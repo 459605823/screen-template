@@ -11,5 +11,5 @@
 ## 使用
 
 ```bash
-npx degit 459605823/screen-template my-project
+npx degit 459605823/screen-template my-project --mode=git
 ```
