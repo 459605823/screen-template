@@ -1,6 +1,19 @@
 {
   "prettier.enable": false,
   "editor.formatOnSave": false,
+  "editor.defaultFormatter": null,
+
+  "[vue]": {
+    "editor.defaultFormatter": null
+  },
+
+  "[typescript]": {
+    "editor.defaultFormatter": null
+  },
+
+  "[javascript]": {
+    "editor.defaultFormatter": null
+  },
 
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
